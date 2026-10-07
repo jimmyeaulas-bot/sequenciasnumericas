@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caderno de Matemática • Progressões Aritméticas (P.A.)</title>
+
+  <!-- Google Fonts: Estilo Caderno Escolar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <!-- KaTeX (Renderizador Matemático) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+  <!-- ========================================================
+       CSS AJUSTADO E ESPECÍFICO PARA A MATÉRIA DE P.A.
+       ======================================================== -->
+  <style>
+    /* ============ ESTILO CADERNO QUADRICULADO ============ */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --ink: #173fa6;
+      --red: #e03131;
+      --green: #2b8a3e;
+      --yel: #ffd43b;
+      --lar: #d9480f;
+      --papel: #fcfdfd;
+      --grade: #d6e6f7;
+      --shadow: rgba(23, 63, 166, 0.12);
+    }
+
+    body {
+      margin: 0;
+      color: #1e293b;
+      font-family: 'Patrick Hand', cursive, system-ui, sans-serif;
+      font-size: 1.18rem;
+      line-height: 1.5;
+      background: var(--papel);
+      background-image: linear-gradient(var(--grade) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grade) 1px, transparent 1px);
+      background-size: 22px 22px;
+      padding-bottom: 60px;
+    }
+
+    /* Margem Vermelha e Furos do Caderno */
+    body::before {
+      content: "";
+      position: fixed;
+      left: 44px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #ff8787;
+      opacity: .7;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 44px;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(circle at 20px 90px, #b9c6de 0 7px, transparent 8px) repeat-y;
+      background-size: 44px 220px;
+    }
+
+    @media (max-width: 768px) {
+      body::before, body::after { display: none; }
+      body { padding: 0 12px 50px; }
+    }
+
+    /* ============ BARRA DE TOPO ============ */
+    .nav-global-container {
+      background: #0f172a;
+      color: #f8fafc;
+      border-bottom: 3px solid var(--yel);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .nav-global-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .nav-logo {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-status-badge {
+      font-size: 0.9rem;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 3px 12px;
+      border-radius: 999px;
+      color: #e2e8f0;
+    }
+
+    /* ============ ESTRUTURA PRINCIPAL ============ */
+    header.topo, main, footer {
+      max-width: 960px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    header.topo {
+      padding-top: 24px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Caveat', cursive;
+      color: var(--ink);
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 2.8rem);
+      text-decoration: underline wavy var(--yel);
+      margin: 6px 0;
+    }
+
+    .sub {
+      margin: 4px 0 14px;
+      font-size: 1.2rem;
+      color: #475569;
+    }
+
+    .prog {
+      display: inline-block;
+      border: 2px dashed var(--green);
+      color: var(--green);
+      border-radius: 999px;
+      padding: 2px 14px;
+      font-weight: bold;
+      background: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+    }
+
+    /* ============ NAVEGADOR DE ABAS ============ */
+    .nav-abas ol {
+      display: flex;
+      gap: 10px;
+      list-style: none;
+      padding: 10px 0;
+      margin: 10px 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-btn {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      font-weight: 700;
+      padding: 6px 16px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all .2s;
+    }
+
+    .tab-btn:hover {
+      background: #edf2ff;
+      transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+      background: var(--yel);
+      box-shadow: 3px 3px 0 var(--ink);
+      transform: scale(1.02);
+    }
+
+    .tab-conteudo {
+      display: none;
+    }
+
+    .tab-conteudo.active {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============ CARDS, FITAS ADESIVAS E POST-ITS ============ */
+    .card, .questao-card {
+      background: #fffef8;
+      border: 2px solid var(--ink);
+      border-radius: 16px;
+      box-shadow: 5px 5px 0 var(--shadow);
+      padding: 24px;
+      position: relative;
+      margin: 24px 0;
+    }
+
+    .tape {
+      position: absolute;
+      height: 24px;
+      width: 100px;
+      background: rgba(255, 212, 59, .75);
+      top: -12px;
+      left: 30px;
+      transform: rotate(-3deg);
+    }
+
+    .tape.t2 {
+      left: auto;
+      right: 30px;
+      transform: rotate(3deg);
+      background: rgba(116, 192, 252, .65);
+    }
+
+    .caixa-copia {
+      background: #f8fff9;
+      border: 2px solid var(--green);
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 16px 0;
+    }
+
+    .selo-copia {
+      display: inline-block;
+      background: var(--green);
+      color: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      font-weight: bold;
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+
+    .caixa-historia {
+      background: #fff9db;
+      border: 2px dashed #f59f00;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 16px 0;
+      color: #5c3810;
+    }
+
+    .selo-historia {
+      display: inline-block;
+      background: #f59f00;
+      color: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 1.15rem;
+      font-weight: bold;
+      padding: 2px 10px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+
+    .formula-destaque {
+      text-align: center;
+      margin: 16px 0;
+      font-size: 1.35rem;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 14px 0;
+    }
+
+    @media (max-width: 650px) {
+      .grid-2col { grid-template-columns: 1fr; }
+    }
+
+    .triwrap {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      margin-top: 16px;
+    }
+
+    .postit {
+      background: #fff9b1;
+      border-radius: 2px;
+      box-shadow: 3px 4px 8px rgba(0,0,0,0.08);
+      padding: 14px 16px;
+      border: 1px solid #fae17d;
+      transform: rotate(-1deg);
+    }
+
+    .postit.azul {
+      background: #e7f5ff;
+      border-color: #a5d8ff;
+      transform: rotate(1deg);
+    }
+
+    .dado-box {
+      background: #edf2ff;
+      border-left: 4px solid var(--ink);
+      padding: 10px 14px;
+      border-radius: 0 8px 8px 0;
+      margin: 10px 0;
+    }
+
+    /* ============ DIAGRAMAS VETORIAIS (SVG) ============ */
+    .diagrama-vetorial-svg {
+      background: #ffffff;
+      border: 2px dashed #90caf9;
+      border-radius: 12px;
+      padding: 12px;
+      margin: 16px 0;
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+    }
+
+    /* ============ EXERCÍCIOS E FASES ============ */
+    .kit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px dashed #94a8c9;
+      padding-bottom: 6px;
+      margin-top: 8px;
+    }
+
+    .tag-kit {
+      background: var(--ink);
+      color: #fff;
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      padding: 2px 14px;
+      border-radius: 20px;
+    }
+
+    .questao-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .num {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: var(--yel);
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .pts {
+      color: #64748b;
+      font-size: 1.1rem;
+    }
+
+    .enunciado {
+      font-size: 1.25rem;
+      font-weight: bold;
+      margin: 14px 0;
+      color: #0f172a;
+    }
+
+    .alternativas-lista {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 18px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .alt-item {
+      padding: 10px 14px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all .15s ease;
+      user-select: none;
+    }
+
+    .alt-item:hover {
+      background: #f8faff;
+      border-color: var(--ink);
+      transform: translateX(4px);
+    }
+
+    .alt-item.selecionada-correta {
+      border: 2px solid var(--green);
+      background: #e6fcf5;
+      color: #087f5b;
+      font-weight: bold;
+    }
+
+    .alt-item.selecionada-errada {
+      border: 2px solid var(--red);
+      background: #fff5f5;
+      color: #c92a2a;
+    }
+
+    .fases-box {
+      background: #f8fafc;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 14px;
+    }
+
+    .fase-item {
+      margin-bottom: 14px;
+      padding-left: 14px;
+      border-left: 4px solid #cbd5e1;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity .35s ease, max-height .45s ease;
+    }
+
+    .fase-item.ativa {
+      opacity: 1;
+      max-height: 800px;
+    }
+
+    .fase-item.fase-1.ativa { border-left-color: var(--ink); }
+    .fase-item.fase-2.ativa { border-left-color: var(--lar); }
+    .fase-item.fase-3.ativa { border-left-color: var(--green); }
+
+    .fase-titulo {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 4px;
+    }
+
+    .fase-1 .fase-titulo { color: var(--ink); }
+    .fase-2 .fase-titulo { color: var(--lar); }
+    .fase-3 .fase-titulo { color: var(--green); }
+
+    .acoes-fases {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button.btn-fase {
+      font-family: 'Caveat', cursive;
+      font-weight: 700;
+      font-size: 1.2rem;
+      min-height: 38px;
+      padding: 4px 14px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      box-shadow: 2px 2px 0 var(--ink);
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    button.btn-fase:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 var(--ink);
+    }
+
+    button.btn-fase.btn-reiniciar {
+      border-color: #868e96;
+      color: #495057;
+      box-shadow: 2px 2px 0 #868e96;
+    }
+
+    button.btn-fase.btn-tudo {
+      border-color: var(--green);
+      color: var(--green);
+      box-shadow: 2px 2px 0 var(--green);
+    }
+
+    .carimbo-ok {
+      display: inline-block;
+      border: 3px solid var(--green);
+      color: var(--green);
+      border-radius: 8px;
+      padding: 4px 16px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      transform: rotate(-3deg);
+      margin-top: 10px;
+      background: #fff;
+    }
+
+    footer {
+      text-align: center;
+      margin: 40px auto 10px;
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      color: #64748b;
+    }
+
+    /* ============ AJUSTE DE ISOLAMENTO DO KATEX ============ */
+    /* Garante que o KaTeX utilize suas fontes matemáticas originais */
+    .katex {
+      font-family: KaTeX_Main, 'Times New Roman', serif !important;
+      font-size: 1.15em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de Topo -->
+  <nav class="nav-global-container">
+    <div class="nav-global-inner">
+      <div class="nav-logo">
+        <span>📐</span> Caderno de Exatas • Progressões
+      </div>
+      <span class="nav-status-badge">Módulo: Álgebra e Sequências</span>
+    </div>
+  </nav>
+
+  <!-- Cabeçalho Principal -->
+  <header class="topo">
+    <span class="prog">Caderno Escolar • P.A.</span>
+    <h1>Progressão Aritmética</h1>
+    <p class="sub">Estrutura teórica em pequenas anotações, dedução intuitiva e exercícios em fases.</p>
+
+    <!-- Abas Interativas -->
+    <nav class="nav-abas">
+      <ol>
+        <li><button class="tab-btn active" data-aba="aba-conceito">1. Conceito & Saltos</button></li>
+        <li><button class="tab-btn" data-aba="aba-geral">2. Da Intuição à Fórmula Geral</button></li>
+        <li><button class="tab-btn" data-aba="aba-soma">3. Soma de Gauss</button></li>
+        <li><button class="tab-btn" data-aba="aba-exercicios">4. Exercícios com Fases</button></li>
+      </ol>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ABA 1: CONCEITO -->
+    <section id="aba-conceito" class="tab-conteudo active">
+      <article class="card">
+        <div class="tape"></div>
+        <div class="tape t2"></div>
+
+        <h2>O que é uma P.A.?</h2>
+        <div class="caixa-copia">
+          <span class="selo-copia">Definição para Copiar</span>
+          <p>
+            Uma <strong>Progressão Aritmética (P.A.)</strong> é uma sequência numérica em que cada termo, a partir do segundo, é igual ao anterior somado a uma constante fixa, chamada de <strong>razão ($r$)</strong>.
+          </p>
+        </div>
+
+        <h3>Representação dos Saltos na Reta Numérica</h3>
+        <p>Veja como cada termo anda o mesmo comprimento na reta:</p>
+
+        <!-- SVG com Marcador de Seta Definido -->
+        <div class="diagrama-vetorial-svg">
+          <svg viewBox="0 0 540 110" width="100%" height="110" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="seta-salto" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#e03131"/>
+              </marker>
+            </defs>
+            <line x1="20" y1="75" x2="520" y2="75" stroke="#173fa6" stroke-width="3" stroke-linecap="round"/>
+            <polygon points="525,75 515,70 515,80" fill="#173fa6" />
+            
+            <!-- Ponto 1 -->
+            <circle cx="60" cy="75" r="6" fill="#ffd43b" stroke="#173fa6" stroke-width="2"/>
+            <text x="60" y="98" font-family="Caveat" font-size="19" font-weight="bold" text-anchor="middle" fill="#173fa6">a₁ = 3</text>
+            
+            <!-- Salto 1 -->
+            <path d="M 60,65 Q 130,22 200,65" fill="none" stroke="#e03131" stroke-width="2.5" stroke-dasharray="4,4" marker-end="url(#seta-salto)"/>
+            <text x="130" y="28" font-family="Caveat" font-size="20" font-weight="bold" text-anchor="middle" fill="#e03131">+4 (r)</text>
+
+            <!-- Ponto 2 -->
+            <circle cx="200" cy="75" r="6" fill="#ffd43b" stroke="#173fa6" stroke-width="2"/>
+            <text x="200" y="98" font-family="Caveat" font-size="19" font-weight="bold" text-anchor="middle" fill="#173fa6">a₂ = 7</text>
+
+            <!-- Salto 2 -->
+            <path d="M 200,65 Q 270,22 340,65" fill="none" stroke="#e03131" stroke-width="2.5" stroke-dasharray="4,4" marker-end="url(#seta-salto)"/>
+            <text x="270" y="28" font-family="Caveat" font-size="20" font-weight="bold" text-anchor="middle" fill="#e03131">+4 (r)</text>
+
+            <!-- Ponto 3 -->
+            <circle cx="340" cy="75" r="6" fill="#ffd43b" stroke="#173fa6" stroke-width="2"/>
+            <text x="340" y="98" font-family="Caveat" font-size="19" font-weight="bold" text-anchor="middle" fill="#173fa6">a₃ = 11</text>
+
+            <!-- Salto 3 -->
+            <path d="M 340,65 Q 410,22 480,65" fill="none" stroke="#e03131" stroke-width="2.5" stroke-dasharray="4,4" marker-end="url(#seta-salto)"/>
+            <text x="410" y="28" font-family="Caveat" font-size="20" font-weight="bold" text-anchor="middle" fill="#e03131">+4 (r)</text>
+
+            <!-- Ponto 4 -->
+            <circle cx="480" cy="75" r="6" fill="#ffd43b" stroke="#173fa6" stroke-width="2"/>
+            <text x="480" y="98" font-family="Caveat" font-size="19" font-weight="bold" text-anchor="middle" fill="#173fa6">a₄ = 15</text>
+          </svg>
+        </div>
+
+        <div class="triwrap">
+          <div class="postit">
+            <strong>Crescente ($r > 0$)</strong>
+            <p>Os termos crescem.<br>Exemplo: $(2, 5, 8, 11, \dots)$</p>
+          </div>
+          <div class="postit azul">
+            <strong>Decrescente ($r < 0$)</strong>
+            <p>Os termos diminuem.<br>Exemplo: $(20, 16, 12, 8, \dots)$</p>
+          </div>
+          <div class="postit">
+            <strong>Constante ($r = 0$)</strong>
+            <p>Todos os termos são iguais.<br>Exemplo: $(5, 5, 5, 5, \dots)$</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ABA 2: TERMO GERAL -->
+    <section id="aba-geral" class="tab-conteudo">
+      <article class="card">
+        <div class="tape"></div>
+        <h2>Construção da Equação Geral</h2>
+        <p>Em vez de decorar regras, conte quantos saltos de tamanho $r$ damos a partir do início:</p>
+
+        <div class="grid-2col">
+          <div class="dado-box">
+            <h4>Contagem de Saltos</h4>
+            <ul>
+              <li>Para $a_1$: 0 saltos $\rightarrow a_1$</li>
+              <li>Para $a_2$: 1 salto $\rightarrow a_1 + 1r$</li>
+              <li>Para $a_3$: 2 saltos $\rightarrow a_1 + 2r$</li>
+              <li>Para $a_n$: $(n - 1)$ saltos $\rightarrow a_1 + (n - 1)r$</li>
+            </ul>
+          </div>
+          <div class="dado-box">
+            <h4>Entendimento Intuitivo</h4>
+            <p>Para chegar na posição $n$, você sempre dá exatamente <strong>um salto a menos</strong> que o número da própria posição.</p>
+          </div>
+        </div>
+
+        <div class="caixa-copia">
+          <span class="selo-copia">Fórmula do Termo Geral</span>
+          <div class="formula-destaque">
+            $$a_n = a_1 + (n - 1) \cdot r$$
+          </div>
+          <p style="text-align: center; color: #475569; margin: 0;">
+            $a_n$: enésimo termo | $a_1$: primeiro termo | $n$: quantidade de termos | $r$: razão
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <!-- ABA 3: SOMA DE GAUSS -->
+    <section id="aba-soma" class="tab-conteudo">
+      <article class="card">
+        <div class="tape"></div>
+        <div class="tape t2"></div>
+        <h2>Soma dos Termos de uma P.A.</h2>
+
+        <div class="caixa-historia">
+          <span class="selo-historia">Método Histórico de Gauss</span>
+          <p>
+            O jovem Gauss percebeu que somar sequências aritméticas é parear os extremos opostos: a soma do 1º com o último é idêntica à soma do 2º com o penúltimo:
+          </p>
+          <p style="text-align: center; font-size: 1.25rem;">
+            $(a_1 + a_n) = (a_2 + a_{n-1}) = \dots$
+          </p>
+        </div>
+
+        <!-- SVG dos Arcos Simétricos de Gauss -->
+        <div class="diagrama-vetorial-svg">
+          <svg viewBox="0 0 520 120" width="100%" height="120" xmlns="http://www.w3.org/2000/svg">
+            <text x="50" y="85" font-family="Caveat" font-size="24" font-weight="bold" fill="#173fa6">a₁</text>
+            <text x="140" y="85" font-family="Caveat" font-size="24" font-weight="bold" fill="#173fa6">a₂</text>
+            <text x="240" y="85" font-family="Caveat" font-size="24" font-weight="bold" fill="#64748b">. . .</text>
+            <text x="350" y="85" font-family="Caveat" font-size="24" font-weight="bold" fill="#173fa6">aₙ₋₁</text>
+            <text x="450" y="85" font-family="Caveat" font-size="24" font-weight="bold" fill="#173fa6">aₙ</text>
+
+            <path d="M 58,60 C 58,10 458,10 458,60" fill="none" stroke="#e03131" stroke-width="2.5"/>
+            <text x="258" y="24" font-family="Caveat" font-size="18" fill="#e03131" text-anchor="middle">Soma = (a₁ + aₙ)</text>
+
+            <path d="M 148,60 C 148,32 358,32 358,60" fill="none" stroke="#2b8a3e" stroke-width="2" stroke-dasharray="4,3"/>
+            <text x="258" y="46" font-family="Caveat" font-size="16" fill="#2b8a3e" text-anchor="middle">Mesma Soma Constante</text>
+          </svg>
+        </div>
+
+        <div class="caixa-copia">
+          <span class="selo-copia">Fórmula da Soma</span>
+          <div class="formula-destaque">
+            $$S_n = \frac{(a_1 + a_n) \cdot n}{2}$$
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ABA 4: EXERCÍCIOS -->
+    <section id="aba-exercicios" class="tab-conteudo">
+      
+      <!-- Questão 1 -->
+      <article class="questao-card" id="q1">
+        <div class="kit-header">
+          <div class="questao-header">
+            <span class="num">1</span>
+            <span class="pts">Termo Geral</span>
+          </div>
+          <span class="tag-kit">Treino Dirigido</span>
+        </div>
+
+        <p class="enunciado">
+          Um reservatório de água possui 500 litros no início do dia. A cada hora, uma bomba adiciona exatamente 120 litros a esse tanque de maneira constante. Quantos litros o reservatório terá ao final de 14 horas de bombeamento contínuo?
+        </p>
+
+        <!-- SVG do Tanque crescendo -->
+        <div class="diagrama-vetorial-svg">
+          <svg viewBox="0 0 500 80" width="100%" height="80" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <marker id="seta-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#173fa6"/>
+              </marker>
+            </defs>
+            <rect x="20" y="40" width="70" height="32" fill="#d6e6f7" stroke="#173fa6" stroke-width="1.5" rx="4"/>
+            <text x="55" y="61" font-family="Caveat" font-size="16" text-anchor="middle" fill="#173fa6">Início: 500L</text>
+
+            <line x1="95" y1="56" x2="145" y2="56" stroke="#173fa6" stroke-width="2" marker-end="url(#seta-p)"/>
+            <text x="120" y="47" font-family="Caveat" font-size="15" text-anchor="middle" fill="#e03131">+120L/h</text>
+
+            <text x="220" y="58" font-family="Caveat" font-size="22" fill="#64748b">. . . . . .</text>
+
+            <rect x="330" y="24" width="130" height="48" fill="#ffd43b" stroke="#173fa6" stroke-width="2" rx="6"/>
+            <text x="395" y="46" font-family="Caveat" font-size="17" font-weight="bold" text-anchor="middle" fill="#173fa6">Após 14h: ?</text>
+            <text x="395" y="63" font-family="Patrick Hand" font-size="13" text-anchor="middle" fill="#475569">Total acumulado</text>
+          </svg>
+        </div>
+
+        <ul class="alternativas-lista" data-correta="c">
+          <li class="alt-item" data-alt="a"><strong>A)</strong> 1.980 litros</li>
+          <li class="alt-item" data-alt="b"><strong>B)</strong> 2.060 litros</li>
+          <li class="alt-item" data-alt="c"><strong>C)</strong> 2.180 litros</li>
+          <li class="alt-item" data-alt="d"><strong>D)</strong> 2.300 litros</li>
+        </ul>
+
+        <div class="fases-box">
+          <div class="fase-item fase-1">
+            <h4 class="fase-titulo">Fase 1: Extração dos Dados</h4>
+            <div class="dado-box">
+              <p>• Volume inicial: $a_1 = 500$</p>
+              <p>• Acréscimo por hora (razão): $r = 120$</p>
+              <p>• Quantidade de adições: $n = 14$ horas decorridas</p>
+            </div>
+          </div>
+
+          <div class="fase-item fase-2">
+            <h4 class="fase-titulo">Fase 2: Raciocínio & Equação</h4>
+            <p>
+              <strong>Intuição:</strong> Adicionamos 120 litros 14 vezes consecutivas ao volume que já tínhamos:<br>
+              $$\text{Volume Final} = 500 + (14 \times 120)$$
+            </p>
+          </div>
+
+          <div class="fase-item fase-3">
+            <h4 class="fase-titulo">Fase 3: Contas & Conclusão</h4>
+            <p>$$14 \times 120 = 1680\text{ litros bombeados}$$</p>
+            <p>$$\text{Total} = 500 + 1680 = 2180\text{ litros}$$</p>
+            <div class="carimbo-ok">✔ Resposta Correta: Letra C (2.180 L)</div>
+          </div>
+
+          <div class="acoes-fases">
+            <button class="btn-fase btn-passo" data-alvo="q1">Avançar Passo a Passo</button>
+            <button class="btn-fase btn-tudo" data-alvo="q1">Ver Resolução Completa</button>
+            <button class="btn-fase btn-reiniciar" data-alvo="q1">Ocultar</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Questão 2 -->
+      <article class="questao-card" id="q2">
+        <div class="kit-header">
+          <div class="questao-header">
+            <span class="num">2</span>
+            <span class="pts">Soma dos Termos</span>
+          </div>
+          <span class="tag-kit">Aplicação da Soma</span>
+        </div>
+
+        <p class="enunciado">
+          Para guardar dinheiro, um estudante estipulou que guardaria R$ 5,00 no 1º dia, R$ 10,00 no 2º dia, R$ 15,00 no 3º dia, e assim por diante durante 30 dias. Ao fim de 30 dias, qual o total acumulado?
+        </p>
+
+        <ul class="alternativas-lista" data-correta="b">
+          <li class="alt-item" data-alt="a"><strong>A)</strong> R$ 2.150,00</li>
+          <li class="alt-item" data-alt="b"><strong>B)</strong> R$ 2.325,00</li>
+          <li class="alt-item" data-alt="c"><strong>C)</strong> R$ 2.450,00</li>
+          <li class="alt-item" data-alt="d"><strong>D)</strong> R$ 2.600,00</li>
+        </ul>
+
+        <div class="fases-box">
+          <div class="fase-item fase-1">
+            <h4 class="fase-titulo">Fase 1: Dados do Problema</h4>
+            <div class="dado-box">
+              <p>• Primeiro dia: $a_1 = 5$</p>
+              <p>• Aumento diário: $r = 5$</p>
+              <p>• Número de dias: $n = 30$</p>
+            </div>
+          </div>
+
+          <div class="fase-item fase-2">
+            <h4 class="fase-titulo">Fase 2: Valor do Último Dia ($a_{30}$)</h4>
+            <p>$$a_{30} = a_1 + (30 - 1) \cdot r = 5 + 29 \cdot 5 = 5 + 145 = 150\text{ reais}$$</p>
+          </div>
+
+          <div class="fase-item fase-3">
+            <h4 class="fase-titulo">Fase 3: Soma Total com Gauss ($S_{30}$)</h4>
+            <p>$$S_{30} = \frac{(a_1 + a_{30}) \cdot n}{2} = \frac{(5 + 150) \cdot 30}{2}$$</p>
+            <p>$$S_{30} = \frac{155 \cdot 30}{2} = 155 \cdot 15 = 2325\text{ reais}$$</p>
+            <div class="carimbo-ok">✔ Resposta Correta: Letra B (R$ 2.325,00)</div>
+          </div>
+
+          <div class="acoes-fases">
+            <button class="btn-fase btn-passo" data-alvo="q2">Avançar Passo a Passo</button>
+            <button class="btn-fase btn-tudo" data-alvo="q2">Ver Resolução Completa</button>
+            <button class="btn-fase btn-reiniciar" data-alvo="q2">Ocultar</button>
+          </div>
+        </div>
+      </article>
+
+    </section>
+  </main>
+
+  <footer>
+    <p>Caderno Interativo de Matemática • Estudo Dirigido de Sequências</p>
+  </footer>
+
+  <!-- ========================================================
+       JS AJUSTADO E ROBUSTO (INTERATIVIDADE + KATEX SEGURO)
+       ======================================================== -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      
+      // 1. Inicialização Segura do KaTeX com verificação periódica
+      function inicializarKatex() {
+        if (typeof renderMathInElement === "function") {
+          renderMathInElement(document.body, {
+            delimiters: [
+              { left: "$$", right: "$$", display: true },
+              { left: "$", right: "$", display: false },
+              { left: "\\(", right: "\\)", display: false },
+              { left: "\\[", right: "\\]", display: true }
+            ],
+            throwOnError: false
+          });
+        } else {
+          // Caso a CDN ainda esteja carregando
+          setTimeout(inicializarKatex, 100);
+        }
+      }
+      inicializarKatex();
+
+      // 2. Troca de Abas
+      const tabBtns = document.querySelectorAll(".tab-btn");
+      const tabConteudos = document.querySelectorAll(".tab-conteudo");
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach(b => b.classList.remove("active"));
+          tabConteudos.forEach(c => c.classList.remove("active"));
+
+          btn.classList.add("active");
+          const alvo = document.getElementById(btn.dataset.aba);
+          if (alvo) {
+            alvo.classList.add("active");
+          }
+        });
+      });
+
+      // 3. Sistema de Múltipla Escolha Interativa
+      document.querySelectorAll(".alternativas-lista").forEach(lista => {
+        const correta = lista.dataset.correta;
+        const itens = lista.querySelectorAll(".alt-item");
+
+        itens.forEach(item => {
+          item.addEventListener("click", () => {
+            itens.forEach(i => i.classList.remove("selecionada-correta", "selecionada-errada"));
+
+            if (item.dataset.alt === correta) {
+              item.classList.add("selecionada-correta");
+            } else {
+              item.classList.add("selecionada-errada");
+              const elementoCorreto = lista.querySelector(`[data-alt="${correta}"]`);
+              if (elementoCorreto) elementoCorreto.classList.add("selecionada-correta");
+            }
+          });
+        });
+      });
+
+      // 4. Controle Didático de Fases com Contador Dinâmico
+      document.querySelectorAll(".btn-fase").forEach(botao => {
+        botao.addEventListener("click", () => {
+          const cardId = botao.dataset.alvo;
+          const card = document.getElementById(cardId);
+          if (!card) return;
+
+          const fases = card.querySelectorAll(".fase-item");
+          const btnPasso = card.querySelector(".btn-passo");
+
+          if (botao.classList.contains("btn-passo")) {
+            // Abre o próximo passo oculto
+            let abertaAgora = false;
+            let totalAbertas = 0;
+
+            for (let f of fases) {
+              if (!f.classList.contains("ativa") && !abertaAgora) {
+                f.classList.add("ativa");
+                abertaAgora = true;
+                totalAbertas++;
+                // Rola suavemente para visualizar a fase
+                f.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              } else if (f.classList.contains("ativa")) {
+                totalAbertas++;
+              }
+            }
+
+            // Atualiza texto do botão
+            if (btnPasso) {
+              if (totalAbertas >= fases.length) {
+                btnPasso.textContent = "Concluído!";
+              } else {
+                btnPasso.textContent = `Avançar (${totalAbertas}/${fases.length})`;
+              }
+            }
+
+          } else if (botao.classList.contains("btn-tudo")) {
+            fases.forEach(f => f.classList.add("ativa"));
+            if (btnPasso) btnPasso.textContent = "Concluído!";
+
+          } else if (botao.classList.contains("btn-reiniciar")) {
+            fases.forEach(f => f.classList.remove("ativa"));
+            if (btnPasso) btnPasso.textContent = "Avançar Passo a Passo";
+          }
+        });
+      });
+
+    });
+  </script>
+</body>
+</html>
